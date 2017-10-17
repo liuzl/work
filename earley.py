@@ -42,7 +42,8 @@ class State(object):
     def __repr__(self):
         terms = [str(p) for p in self.production]
         terms.insert(self.dot_index, u"$")
-        return "%-5s -> %-16s [%s-%s]" % (self.name, " ".join(terms), self.start_column, self.end_column)
+        return "%-5s -> %-16s [%s-%s]" % \
+                (self.name, " ".join(terms), self.start_column, self.end_column)
     def __eq__(self, other):
         return (self.name, self.production, self.dot_index, self.start_column) == \
             (other.name, other.production, other.dot_index, other.start_column)
@@ -130,7 +131,7 @@ def parse(rule, text):
                 complete(col, state)
             else:
                 term = state.next_term()
-                if isinstance(term, Rule):
+                if isinstance(term, Rule): # rule means non-terminals
                     predict(col, term)
                 elif i + 1 < len(table):
                     scan(table[i+1], state, term)
@@ -169,23 +170,3 @@ def build_trees_helper(children, state, rule_index, end_column):
                 outputs.append(node)
     return outputs
 
-if __name__ == "__main__":
-    N = Rule("N", Production("time"), Production("flight"), Production("banana"), 
-        Production("flies"), Production("boy"), Production("telescope"))
-    D = Rule("D", Production("the"), Production("a"), Production("an"))
-    V = Rule("V", Production("book"), Production("eat"), Production("sleep"), Production("saw"))
-    P = Rule("P", Production("with"), Production("in"), Production("on"), Production("at"),
-        Production("through"))
-
-    PP = Rule("PP")
-    NP = Rule("NP", Production(D, N), Production("john"), Production("houston"))
-    NP.add(Production(NP, PP))
-    PP.add(Production(P, NP))
-
-    VP = Rule("VP", Production(V, NP))
-    VP.add(Production(VP, PP))
-    S = Rule("S", Production(NP, VP), Production(VP))
-
-    for tree in build_trees(parse(S, "john saw the boy with the telescope")):
-        print "--------------------------"
-        tree.print_()

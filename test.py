@@ -19,3 +19,8 @@ if __name__ == "__main__":
     for tree in build_trees(parse(S, "john saw the boy with telescope")):
         print "--------------------------"
         tree.print_()
+
+    print repr(N)
+    print repr(VP)
+    print repr(S)
+    print repr(PP)
