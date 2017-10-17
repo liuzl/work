@@ -100,38 +100,41 @@ class Node(object):
         for child in self.children:
             child.print_(level + 1)
 
-def predict(col, rule):
+def predict(col, rule): #操作当前Column
     for prod in rule.productions:
         col.add(State(rule.name, prod, 0, col))
 
-def scan(col, state, token):
-    if token != col.token:
+def scan(col, state, token): #操作下一个Column
+    if token != col.token: #col表示输入串，token是Rule里面next_term
         return
     col.add(State(state.name, state.production, state.dot_index + 1, state.start_column))
 
-def complete(col, state):
+def complete(col, state): #操作当前Column
     if not state.completed():
         return
     for st in state.start_column:
         term = st.next_term()
         if not isinstance(term, Rule):
             continue
+        #如果来源state的dot位置是left-hand non-terminal，添加dot+1的st到当前Column
         if term.name == state.name:
             col.add(State(st.name, st.production, st.dot_index + 1, st.start_column))
 
 GAMMA_RULE = u"GAMMA"
 
 def parse(rule, text):
+    # word个数+1个Column
     table = [Column(i, tok) for i, tok in enumerate([None] + text.lower().split())]
     table[0].add(State(GAMMA_RULE, Production(rule), 0, table[0]))
 
+    # 对每一个token
     for i, col in enumerate(table):
         for state in col:
             if state.completed():
                 complete(col, state)
             else:
                 term = state.next_term()
-                if isinstance(term, Rule): # rule means non-terminals
+                if isinstance(term, Rule): #如果是non-terminals，需要predict
                     predict(col, term)
                 elif i + 1 < len(table):
                     scan(table[i+1], state, term)
@@ -151,7 +154,7 @@ def build_trees(state):
 def build_trees_helper(children, state, rule_index, end_column):
     if rule_index < 0:
         return [Node(state, children)]
-    elif rule_index == 0:
+    elif rule_index == 0: #如果是rule的第一个non-terminal
         start_column = state.start_column
     else:
         start_column = None
@@ -161,7 +164,8 @@ def build_trees_helper(children, state, rule_index, end_column):
     for st in end_column:
         if st is state:
             break
-        if st is state or not st.completed() or st.name != rule.name:
+        #if st is state or not st.completed() or st.name != rule.name:
+        if not st.completed() or st.name != rule.name:
             continue
         if start_column is not None and st.start_column != start_column:
             continue
