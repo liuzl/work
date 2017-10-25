@@ -23,7 +23,7 @@ def loadGrammar(filename):
                         rules[tok] = Rule(tok)
                     p.terms.append(rules[tok])
                 else:
-                    p.terms.append(Production(tok))
+                    p.terms.append(tok)
             rules[two[0]].add(p)
     return rules
 

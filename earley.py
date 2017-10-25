@@ -105,7 +105,6 @@ def predict(col, rule): #操作当前Column
         col.add(State(rule.name, prod, 0, col))
 
 def scan(col, state, token): #操作下一个Column
-    print state, token, col.token, token != col.token, type(token), type(col.token)
     if token != col.token: #col表示输入串，token是Rule里面next_term
         return
     col.add(State(state.name, state.production, state.dot_index + 1, state.start_column))
