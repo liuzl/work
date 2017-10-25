@@ -11,12 +11,15 @@ def loadGrammar(filename):
         two = line.split("->")
         if len(two) != 2 or len(two[0]) == 0 or len(two[1]) == 0:
             continue
-        if two[0][0] != '<' or two[0][-1] != '>': continue
-        if two[0] not in rules:
-            rules[two[0]] = Rule(two[0])
+        lhs = two[0].strip()
+        rhs = two[1].strip()
+        if lhs[0] != '<' or lhs[-1] != '>': continue
+        if lhs not in rules:
+            rules[lhs] = Rule(lhs)
         for prods in two[1].split("|"):
             p = Production()
             for tok in prods.split(" "):
+                tok = tok.strip()
                 if tok == "": continue
                 if tok[0] == '<' and tok[-1] == '>':
                     if tok not in rules:
@@ -24,7 +27,7 @@ def loadGrammar(filename):
                     p.terms.append(rules[tok])
                 else:
                     p.terms.append(tok)
-            rules[two[0]].add(p)
+            rules[lhs].add(p)
     return rules
 
 if __name__ == "__main__":

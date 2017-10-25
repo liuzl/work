@@ -1,8 +1,8 @@
-<N>->boy|telescope
-<D>->the|a|an
-<V>->book|eat|sleep|saw
-<P>->with|in|on|at|through
-<PP>-><P> <NP>
-<NP>-><D> <N>|<N>|john|houston|<NP> <PP>
-<VP>-><V> <NP>|<VP> <PP>
-<S>-><NP> <VP>|<VP>
+<N> -> boy | telescope
+<D> -> the | a | an
+<V> -> book | eat | sleep | saw
+<P> -> with | in|on|at | through
+<PP> -> <P> <NP>
+<NP> -> <D> <N> | <N> | john | houston | <NP> <PP>
+<VP> -> <V> <NP> | <VP> <PP>
+<S> -> <NP> <VP> | <VP>
