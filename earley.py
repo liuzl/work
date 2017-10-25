@@ -2,7 +2,7 @@
 
 class Production(object):
     def __init__(self, *terms):
-        self.terms = terms
+        self.terms = list(terms)
     def __len__(self):
         return len(self.terms)
     def __getitem__(self, index):
@@ -18,7 +18,7 @@ class Production(object):
     def __ne__(self, other):
         return not (self == other)
     def __hash__(self):
-        return hash(self.terms)
+        return hash(tuple(self.terms))
 
 class Rule(object):
     def __init__(self, name, *productions):
@@ -105,6 +105,7 @@ def predict(col, rule): #操作当前Column
         col.add(State(rule.name, prod, 0, col))
 
 def scan(col, state, token): #操作下一个Column
+    print state, token, col.token, token != col.token, type(token), type(col.token)
     if token != col.token: #col表示输入串，token是Rule里面next_term
         return
     col.add(State(state.name, state.production, state.dot_index + 1, state.start_column))
@@ -140,6 +141,7 @@ def parse(rule, text):
                     scan(table[i+1], state, term)
         
         #col.print_(completedOnly = True)
+        col.print_(completedOnly = False)
 
     # find gamma rule in last table column (otherwise fail)
     for st in table[-1]:

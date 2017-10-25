@@ -16,7 +16,8 @@ if __name__ == "__main__":
     VP.add(Production(VP, PP))
     S = Rule("S", Production(NP, VP), Production(VP))
 
-    for tree in build_trees(parse(S, "john saw the boy with telescope")):
+    #for tree in build_trees(parse(S, "john saw the boy with telescope")):
+    for tree in build_trees(parse(S, "john saw boy")):
         print "--------------------------"
         tree.print_()
 
