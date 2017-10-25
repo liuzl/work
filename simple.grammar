@@ -1,4 +1,4 @@
-<N> -> boy | telescope
+<N> -> boy | telescope | apple
 <D> -> the | a | an
 <V> -> book | eat | sleep | saw
 <P> -> with | in|on|at | through

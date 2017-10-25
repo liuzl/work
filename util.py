@@ -37,7 +37,6 @@ if __name__ == "__main__":
         sys.exit(1)
     rules = loadGrammar(sys.argv[1])
 
-    #for tree in build_trees(parse(rules['<S>'], "john saw the boy with telescope")):
-    for tree in build_trees(parse(rules['<S>'], "john saw boy")):
+    for tree in build_trees(parse(rules['<S>'], "john saw the boy with telescope")):
         print "--------------------------"
         tree.print_()
