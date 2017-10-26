@@ -153,7 +153,6 @@ def build_trees(state):
     return build_trees_helper([], state, len(state.rules) - 1, state.end_column)
 
 def build_trees_helper(children, state, rule_index, end_column):
-    print state
     if rule_index < 0:
         return [Node(state, children)]
     elif rule_index == 0: #如果是rule的第一个non-terminal

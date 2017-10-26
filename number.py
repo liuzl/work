@@ -8,10 +8,8 @@ if __name__ == "__main__":
         print("Usage: %s <cfgfile>" % sys.arvv[0])
         sys.exit(1)
     rules = loadGrammar(sys.argv[1])
-    st = parse(rules['<s>'], "1 9 . 3")
-    print st
+    st = parse(rules['<s>'], "3 4 . 1 9")
     trees = build_trees(st)
-    print len(trees)
     for tree in trees:
         print("="*80)
         tree.print_()
